@@ -1,0 +1,18 @@
+{
+    "name": "evangelos/search-results-aggregator-assignment",
+    "authors": [
+        {
+            "name": "Evangelos Karvounis",
+            "email": "karvounis.b@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Evangelos\\SearchResultsAggregator\\": "src/"
+        }
+    }
+}
