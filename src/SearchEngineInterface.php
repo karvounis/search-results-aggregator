@@ -4,7 +4,5 @@ namespace Evangelos\SearchResultsAggregator;
 
 interface SearchEngineInterface
 {
-    public function getData();
-
-    public function parseBody();
+    public function search($query);
 }
