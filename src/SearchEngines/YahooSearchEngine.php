@@ -24,7 +24,11 @@ class YahooSearchEngine implements SearchEngineInterface
     public function search($query)
     {
         $response = $this->client->request('GET', self::BASE_URL, ['query' => 'p=' . $query]);
-        $body = $response->getBody()->getContents();
+        $this->parseResponseBody($response->getBody()->getContents());
+    }
+
+    private function parseResponseBody($body)
+    {
         $dom = new \DOMDocument();
         @$dom->loadHTML($body);
         $h3Tags = $dom->getElementById('web')->getElementsByTagName('h3');

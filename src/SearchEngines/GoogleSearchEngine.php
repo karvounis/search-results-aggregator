@@ -24,22 +24,21 @@ class GoogleSearchEngine implements SearchEngineInterface
     public function search($query)
     {
         $response = $this->client->request('GET', self::BASE_URL, ['query' => 'q=' . $query]);
-        $body = $response->getBody()->getContents();
+        $this->parseResponseBody($response->getBody()->getContents());
+    }
+
+    private function parseResponseBody($body)
+    {
         $dom = new \DOMDocument();
-
         @$dom->loadHTML($body);
-        $h3Tags = $dom->getElementsByTagName('h3');
+        $h3Tags = $dom->getElementById('search')->getElementsByTagName('h3');
         foreach ($h3Tags as $h3Tag) {
-            $class = $h3Tag->getAttribute('class');
-//            if ($class == 'title') {
-                $aTag = $h3Tag->getElementsByTagName('a')[0];
-                $result = new ResultEntity();
-                $result->setTitle($h3Tag->nodeValue);
-                $result->setUrl($aTag->getAttribute('href'));
-                $this->resultsCollection->appendResultEntity($result, self::SOURCE);
-//            }
+            $parent = $h3Tag->parentNode;
+            $citeElement = $parent->getElementsByTagName('cite')[0];
+            $result = new ResultEntity();
+            $result->setTitle($h3Tag->nodeValue);
+            $result->setUrl($citeElement->nodeValue);
+            $this->resultsCollection->appendResultEntity($result, self::SOURCE);
         }
-
-        return $response;
     }
 }
