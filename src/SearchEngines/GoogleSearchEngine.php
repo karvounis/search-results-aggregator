@@ -48,11 +48,12 @@ class GoogleSearchEngine implements SearchEngineInterface
         foreach ($h3Tags as $h3Tag) {
             $parent = $h3Tag->parentNode;
             $citeElement = $parent->getElementsByTagName('cite')[0];
-
-            $result = new ResultEntity();
-            $result->setTitle($h3Tag->nodeValue);
-            $result->setUrl($citeElement->nodeValue);
-            $this->resultsCollection->appendResultEntity($result, self::SOURCE);
+            if (!is_null($citeElement)) {
+                $result = new ResultEntity();
+                $result->setTitle($h3Tag->nodeValue);
+                $result->setUrl($citeElement->nodeValue);
+                $this->resultsCollection->appendResultEntity($result, self::SOURCE);
+            }
         }
     }
 }
