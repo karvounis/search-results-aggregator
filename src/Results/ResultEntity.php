@@ -4,14 +4,17 @@ namespace Evangelos\SearchResultsAggregator\Results;
 
 class ResultEntity
 {
+    /** @var string */
     private $url;
+    /** @var string */
     private $title;
+    /** @var string[] */
     private $sources;
 
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -19,7 +22,7 @@ class ResultEntity
     /**
      * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl($url): void
     {
         $this->url = $url;
     }
@@ -27,7 +30,7 @@ class ResultEntity
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -35,7 +38,7 @@ class ResultEntity
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -43,7 +46,7 @@ class ResultEntity
     /**
      * @return string[]
      */
-    public function getSources()
+    public function getSources(): array
     {
         return $this->sources;
     }
@@ -51,7 +54,7 @@ class ResultEntity
     /**
      * @param string $source
      */
-    public function addSource($source)
+    public function addSource($source): void
     {
         $this->sources[] = $source;
     }

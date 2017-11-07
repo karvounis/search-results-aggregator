@@ -7,6 +7,10 @@ use Evangelos\SearchResultsAggregator\Results\ResultsCollection;
 use Evangelos\SearchResultsAggregator\SearchEngineInterface;
 use GuzzleHttp\ClientInterface;
 
+/**
+ * Class YahooSearchEngine
+ * @package Evangelos\SearchResultsAggregator\SearchEngines
+ */
 class YahooSearchEngine implements SearchEngineInterface
 {
     const BASE_URL = 'https://search.yahoo.com/search';
@@ -21,13 +25,22 @@ class YahooSearchEngine implements SearchEngineInterface
         $this->resultsCollection = $resultsCollection;
     }
 
-    public function search($query)
+    /**
+     * Searches Yahoo for the given query.
+     * @param $query
+     */
+    public function search(string $query): void
     {
         $response = $this->client->request('GET', self::BASE_URL, ['query' => 'p=' . $query]);
         $this->parseResponseBody($response->getBody()->getContents());
     }
 
-    private function parseResponseBody($body)
+    /**
+     * Parses the response body from the request to Yahoo.
+     * For every result, generates a Result Entity and appends it to the Result Collection.
+     * @param $body
+     */
+    private function parseResponseBody($body): void
     {
         $dom = new \DOMDocument();
         @$dom->loadHTML($body);
@@ -36,6 +49,7 @@ class YahooSearchEngine implements SearchEngineInterface
             $class = $h3Tag->getAttribute('class');
             if ($class == 'title') {
                 $aTag = $h3Tag->getElementsByTagName('a')[0];
+
                 $result = new ResultEntity();
                 $result->setTitle($h3Tag->nodeValue);
                 $result->setUrl($aTag->getAttribute('href'));
